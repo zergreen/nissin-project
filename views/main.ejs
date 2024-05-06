@@ -28,6 +28,14 @@
     <% }); %>
   </ul>
 
+  <div>
+    <div>
+        <strong>User ID:</strong> <%= user._id %><br>
+        <strong>Username:</strong> <%= user.username %><br>
+        <strong>Role:</strong> <%= user.role %>
+    </div>
+  </div>
+
   <button onclick="goToReport()">Go to Report</button>
 
   <script>
