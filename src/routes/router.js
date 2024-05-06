@@ -448,6 +448,28 @@ router.get('/edit-user/:userId', async (req, res) => {
  });
  
 
+// Define the update user API endpoint
+router.post('/api/user/:userId', async (req, res) => {
+   const { userId } = req.params;
+   const { username, password, role } = req.body;
+
+   // console.log(username, password, role, userId)
+ 
+   try {
+     // Find the user by ID and update its details
+     const user = await User.findByIdAndUpdate(
+       userId,
+       { username, password, role },
+       { new: true }
+     );
+     res.redirect('/report');
+   } catch (error) {
+     console.error('Error updating user:', error);
+     res.status(500).json({ message: 'Internal server error' });
+   }
+ });
+ 
+
 
 
 

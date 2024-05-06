@@ -6,7 +6,7 @@
 <body>
   <h1>Edit User</h1>
   <form action="/api/user/<%= user._id %>" method="POST">
-    <input type="hidden" name="_method" value="PUT">
+    <!-- <input type="hidden" name="_method" value="PUT"> -->
     <div>
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" value="<%= user.username %>" required>
@@ -16,8 +16,12 @@
       <input type="password" id="password" name="password" value="<%= user.password %>" required>
     </div>
     <div>
-      <label for="role">Role:</label>
-      <input type="text" id="role" name="role" value="<%= user.role %>" required>
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+          <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+          <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+          <option value="superadmin" <%= user.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
+        </select>
     </div>
     <button type="submit">Update</button>
   </form>
