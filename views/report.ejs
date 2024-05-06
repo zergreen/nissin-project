@@ -2,13 +2,16 @@
 <html>
 <head>
   <title>Report Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body>
-  <h1>Report Page</h1>
-  <div x-data="{
-    data: [],
-    fetchData() {
+  <%- include('./partials/nav'); %>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Report Page</h1>
+    <div x-data="{
+      data: [],
+      fetchData() {
         console.log('Fetching data');
         fetch('/api/user')
           .then(response => response.json())
@@ -36,34 +39,37 @@
             console.error('Error:', error);
           });
       },
-    editUser(userId) {
-      window.location.href = `/edit-user/${userId}`;
-    }
-  }" x-init="fetchData()">
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Password</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template x-for="item in data">
+      editUser(userId) {
+        window.location.href = `/edit-user/${userId}`;
+      }
+    }" x-init="fetchData()">
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td x-text="item.username"></td>
-            <td x-text="item.password"></td>
-            <td x-text="item.role"></td>
-            <td>
-              <button @click="deleteUser(item._id)">Delete</button>
-              <button @click="editUser(item._id)">Edit</button>
-            </td>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Actions</th>
           </tr>
-        </template>
-      </tbody>
-    </table>
-    <button onclick="history.back()">Back</button>
+        </thead>
+        <tbody>
+          <template x-for="item in data">
+            <tr>
+              <td x-text="item.username"></td>
+              <td x-text="item.password"></td>
+              <td x-text="item.role"></td>
+              <td>
+                <button class="btn btn-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
+                <button class="btn btn-primary btn-sm" @click="editUser(item._id)">Edit</button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" onclick="history.back()">Back</button>
+      </div>
+    </div>
   </div>
 </body>
 </html>

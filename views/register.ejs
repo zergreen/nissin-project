@@ -2,65 +2,65 @@
 <html>
 <head>
   <title>Registration Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body>
-  <div x-data="{
-    username: '',
-    password: '',
-    message: '',
-    register() {
-      fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: this.username,
-          password: this.password,
-        }),
-      })
-        .then(response => {
-            // console.log(response.status);
-          if (response.status === 201) {
-            alert('Registration successful')
-            window.location.href = '/';
-          } else {
-            alert('Registration Failed')
-            this.username = '';
-            this.password = '';
-            return response.json();
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div x-data="{
+          username: '',
+          password: '',
+          message: '',
+          register() {
+            fetch('/api/register', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: this.username,
+                password: this.password,
+              }),
+            })
+              .then(response => {
+                if (response.status === 201) {
+                  alert('Registration successful');
+                  window.location.href = '/';
+                } else {
+                  alert('Registration Failed');
+                  this.username = '';
+                  this.password = '';
+                  return response.json();
+                }
+              })
+              .then(data => {
+                if (data) {
+                  this.message = data.message;
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
           }
-        })
-        .then(data => {
-          if (data) {
-            this.message = data.message;
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-  }">
-    <h2>Registration Form</h2>
-    <form @submit.prevent="register">
-        <div>
-          <label for="username">Username:</label>
-          <input type="text" placeholder="superadmin" id="username" x-model="username" pattern=".{8,}" required>
-          
-          <!-- <small>Username must be at least 8 characters long</small> -->
+        }">
+          <h2 class="text-center mb-4">Registration Form</h2>
+          <form @submit.prevent="register">
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" placeholder="superadmin" id="username" x-model="username" pattern=".{8,}" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" placeholder="Aa@@123456" id="password" x-model="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+          </form>
+          <p class="text-center text-danger mt-3" x-text="message"></p>
         </div>
-        <div>
-          <label for="password">Password:</label>
-        
-          <input type="password" placeholder="Aa@@123456" id="password" x-model="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required>
-          <!-- <small>Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)</small> -->
-          Aa@@123456
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      
-      
+      </div>
+    </div>
   </div>
 </body>
 </html>

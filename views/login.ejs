@@ -3,51 +3,62 @@
 <head>
   <title>Login Form</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
 </head>
 <body>
-  <div x-data="{ 
-    username: '', 
-    password: '', 
-    message: '',
-    login() {
-      fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: this.username,
-          password: this.password,
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            window.location.href = '/main';
-            // console.log('Login successful');
+  
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div x-data="{ 
+          username: '', 
+          password: '', 
+          message: '',
+          login() {
+            fetch('/api/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: this.username,
+                password: this.password,
+              }),
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  window.location.href = '/main';
+                  // console.log('Login successful');
+                }
+                this.message = data.message;
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
           }
-          this.message = data.message;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-  }">
-    <h2>Login Form</h2>
-    <form @submit.prevent="login">
-      <div>
-        <!-- <h6 x-text="username"></h6> -->
-        <label for="username">Username:</label>
-        <input type="text" id="username" x-model="username" required>
+        }">
+          <h2 class="text-center mb-4">Login Form</h2>
+          <form @submit.prevent="login">
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" id="username" x-model="username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" x-model="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </form>
+          <div class="text-center mt-3">
+            <button class="btn btn-link" onclick="window.location.href = '/register'">Register</button>
+          </div>
+          <p class="text-center text-danger mt-3" x-text="message"></p>
+        </div>
       </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" x-model="password" required>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    <button onclick="window.location.href = '/register'">Register</button>
-    <p x-text="message"></p>
+    </div>
   </div>
 </body>
+
 </html>
