@@ -19,6 +19,22 @@
         .catch(error => {
           console.error('Error:', error);
         });
+    },
+    deleteUser(userId) {
+      fetch(`/api/user/${userId}`, {
+        method: 'DELETE'
+      })
+        .then(response => {
+          if (response.ok) {
+            // Remove the deleted user from the data array
+            this.data = this.data.filter(user => user._id !== userId);
+          } else {
+            console.error('Error deleting user');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
   }" x-init="fetchData()">
     <table>
@@ -27,6 +43,7 @@
           <th>Username</th>
           <th>Password</th>
           <th>Role</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -35,6 +52,7 @@
             <td x-text="item.username"></td>
             <td x-text="item.password"></td>
             <td x-text="item.role"></td>
+            <td><button @click="deleteUser(item._id)">DEL</button></td>
           </tr>
         </template>
       </tbody>

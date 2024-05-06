@@ -418,6 +418,21 @@ router.get('/api/data', (req, res) => {
    res.json(mockData);
  });
 
+ // Define the delete user API endpoint
+router.delete('/api/user/:userId', async (req, res) => {
+   const { userId } = req.params;
+ 
+   try {
+     // Find the user by ID and remove it from the database
+     await User.findByIdAndRemove(userId);
+     res.sendStatus(200);
+   } catch (error) {
+     console.error('Error deleting user:', error);
+     res.status(500).json({ message: 'Internal server error' });
+   }
+ });
+ 
+
 
 
 
