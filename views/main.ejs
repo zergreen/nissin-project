@@ -1,0 +1,39 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Main Page</title>
+</head>
+<body>
+  <h1>Welcome to the Main Page!</h1>
+  <p>You are now logged in.</p>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Main Page</title>
+</head>
+<body>
+  <h1>Welcome to the Main Page!</h1>
+  <p>You are now logged in.</p>
+
+  <h2>User Data:</h2>
+  <ul>
+    <% data.forEach(function(user) { %>
+      <li>
+        <strong>Username:</strong> <%= user.username %>,
+        <strong>Password:</strong> <%= user.password %>
+      </li>
+    <% }); %>
+  </ul>
+
+  <button onclick="goToReport()">Go to Report</button>
+
+  <script>
+    function goToReport() {
+      window.location.href = '/report';
+    }
+  </script>
+</body>
+</html>

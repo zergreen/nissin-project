@@ -1,0 +1,860 @@
+{
+	"info": {
+		"_postman_id": "a807f3ee-2f16-404c-8dc6-a4dbb49e7766",
+		"name": "KMITL Sci V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20110985"
+	},
+	"item": [
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "Get Hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/hello/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"hello",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "newsId",
+									"value": "02",
+									"type": "text"
+								},
+								{
+									"key": "detail",
+									"value": "\"ช่วงสอบ ไปอ่านหนังสือที่ไหนดี ‼️\n📍ห้อง Co-Working Club มุมพักผ่อน สำหรับน้องๆนักศึกษา  \nสำหรับอ่านหนังสือ นั่งทำงาน \nพบกันที่ ชั้น 3 อาคารจุฬาภรณวลัยลักษณ์ 2 \n🔸ช่วงการสอบนี้ 4-12 มี.ค. 66 \nน้องๆสามารถเข้าใช้งานได้ตามเวลาดังนี้ \nวันอังคาร-ศุกร์ เวลา 08.30-20.00 น. \nวันเสาร์-อาทิตย์ เวลา 08.30-17.00 น.\nหยุดวันนักขัตฤกษ์ วันจันทร์ที่ 6 มีนาคม\"",
+									"type": "text"
+								},
+								{
+									"key": "topic",
+									"value": "ช่วงสอบ ไปอ่านหนังสือที่ไหนดี",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "6 มีนาคม 2023",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "https://www.appsheet.com/template/gettablefileurl?appName=URLImage-137974494&tableName=Image&fileName=Image_Images%2F04-05-2024%2016-28-48.Picture.092845.jpg",
+									"type": "text"
+								},
+								{
+									"key": "link",
+									"value": "https://docs.google.com/.../1FAIpQLSebyyTvtr27Sn.../viewform",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "ข่าวสารประกาศทั่วไป",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/news/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Data By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/news/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Data By Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "topic",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": "18 ตุลาคม 2023",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "detail",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "https://www.appsheet.com/template/gettablefileurl?appName=URLImage-137974494&tableName=Image&fileName=Image_Images%2F04-05-2024%2016-34-24.Picture.093416.png",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "link",
+									"value": "66116a657e5d7543fb55ddf3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/news/66115eb47e5d7543fb55ddb7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news",
+								"66115eb47e5d7543fb55ddb7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/news/66116b8a7e5d7543fb55ddfe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news",
+								"66116b8a7e5d7543fb55ddfe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/news/search/014",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"news",
+								"search",
+								"014"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Apply",
+			"item": [
+				{
+					"name": "new apply",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "branch",
+									"value": "it",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "applyId",
+									"value": "01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/apply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update apply by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "applyId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "somchai",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "chai",
+									"type": "text"
+								},
+								{
+									"key": "department",
+									"value": "sci",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/apply/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete apply by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "applyId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "tarst",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "tarst",
+									"type": "text"
+								},
+								{
+									"key": "department",
+									"value": "sci",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/apply/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all apply",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/apply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get apply by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/apply/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search by applyId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/apply/search/applyId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"apply",
+								"search",
+								"applyId"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "add user login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "loginId",
+									"value": "002",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "test01",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "lname",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "branch",
+									"value": "วิทยาการคอมพิวเตอร์",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get login by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/login/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update login by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "loginid",
+									"value": "22",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "sompong",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/login/id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete login by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "loginid",
+									"value": "22",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "sompong",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/login/66237bfd19b18cebaf6c6091",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login",
+								"66237bfd19b18cebaf6c6091"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get login by loginId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/login/search/loginIg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login",
+								"search",
+								"loginIg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "add product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"01\",\n    \"topic\": \"เสื้อนักศึกษาชายแขนยาว\",\n    \"price\": \"240\",\n    \"sizesCategory\": [\n        { \"sizeId\": \"100001\", \"sizeType\": \"S\" },\n        { \"sizeId\": \"100002\", \"sizeType\": \"M\" },\n        { \"sizeId\": \"100003\", \"sizeType\": \"L\" },\n        { \"sizeId\": \"100004\", \"sizeType\": \"XL\" },\n        { \"sizeId\": \"100005\", \"sizeType\": \"XXL\" },\n        { \"sizeId\": \"100006\", \"sizeType\": \"XXXL\" }\n    ],\n    \"count\": \"100\",\n    \"branchCategory\": [\n        { \"branchId\": \"200001\", \"branchName\": \"สาขาวิทยาการคอมพิวเตอร์\" },\n        { \"branchId\": \"200002\", \"branchName\": \"สาขาคณิตศาสตร์\" },\n        { \"branchId\": \"200003\", \"branchName\": \"สาขาชีววิทยา\" },\n        { \"branchId\": \"200004\", \"branchName\": \"สาขาเคมี\" },\n        { \"branchId\": \"200005\", \"branchName\": \"สาขาฟิสิกส์\" },\n        { \"branchId\": \"200006\", \"branchName\": \"สาขาสถิติ\" }\n    ],\n    \"category\": \"Uniform\",\n    \"image\": \"image_url_here\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product/662508f24695409f9944009c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"662508f24695409f9944009c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "productId",
+									"value": "08",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "topic",
+									"value": "เสื้อนักศึกษาชายแขนยาว",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "240",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "https://www.appsheet.com/template/gettablefileurl?appName=URLImage-137974494&tableName=Image&fileName=Image_Images%2F04-21-2024%2019-18-49.Picture.121903.jpg",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "count",
+									"value": "100",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "เครื่องแต่งกายอื่นๆ",
+									"type": "text"
+								},
+								{
+									"key": "sizes",
+									"value": "S",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sizem",
+									"value": "M",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sizel",
+									"value": "L",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sizexl",
+									"value": "XL",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sizexxl",
+									"value": "XXL",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sizexxxl",
+									"value": "XXXL",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchcom",
+									"value": "สาขาวิทยาการคอมพิวเตอร์",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchmath",
+									"value": "สาขาคณิตศาสตร์",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchbio",
+									"value": "สาขาชีววิทยา",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchchemi",
+									"value": "สาขาเคมี",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchphysic",
+									"value": "สาขาฟิสิกส์",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "branchstat",
+									"value": "สาขาสถิติ",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/product/662508504695409f99440092",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"662508504695409f99440092"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

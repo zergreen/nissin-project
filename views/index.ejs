@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alpine.js in EJS</title>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+</head>
+<body>
+  <div x-data="{ message: 'Hello, Alpine.js!' }">
+    <h1 x-text="message"></h1>
+    <input type="text" x-model="message">
+  </div>
+</body>
+</html>

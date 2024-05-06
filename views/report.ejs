@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Report Page</title>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+</head>
+<body>
+  <h1>Report Page</h1>
+  <div x-data="{
+    data: [],
+    fetchData() {
+      // console.log('Fetching data');
+      fetch('/api/data')
+        .then(response => response.json())
+        .then(data => {
+         // console.log(data);
+          this.data = data;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }" x-init="fetchData()">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-for="item in data">
+          <tr>
+            <td x-text="item.username"></td>
+            <td x-text="item.password"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+    <button onclick="history.back()">Go Back</button>
+  </div>
+</body>
+</html>
