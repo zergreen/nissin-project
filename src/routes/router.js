@@ -256,14 +256,20 @@ const User = require('../models/User');
 // Define the login API endpoint
 router.post('/api/login', async (req, res) => {
    const { username, password } = req.body;
-   console.log(username, password);
+   // console.log(username, password);
  
-   
    try {
      // Find the user with the matching username and password
      const user = await User.findOne({ username: username, password: password });
+   //   console.log(user);
  
      if (user) {
+       // Create a session and store user information
+       req.session.user = {
+         _id: user._id,
+         username: user.username,
+         role: user.role
+       };
        res.json({ success: true, message: 'Login successful' });
      } else {
        res.json({ success: false, message: 'Invalid username or password' });
@@ -272,8 +278,8 @@ router.post('/api/login', async (req, res) => {
      console.error('Error during login:', error);
      res.status(500).json({ success: false, message: 'Internal server error' });
    }
-   });
-
+ });
+ 
  
 
  // Get all news items
@@ -365,12 +371,31 @@ router.get('/v2/main', async (req, res) => {
  });
 
  // Define a route that renders the EJS template
-router.get('/main', async (req, res) => {
+router.get('/v1/main', async (req, res) => {
    // const newsItems = await User.find({});
    const newsItems = await User.find({});
    console.log(newsItems)
    res.render('main', { data: newsItems });
  });
+
+ // Define a route that renders the EJS template
+router.get('/main', async (req, res) => {
+   if (req.session.user) {
+     try {
+       const response = await fetch('http://localhost:3000/api/user');
+       const data = await response.json();
+      //  console.log(data);
+      //  console.log(req.session.user)
+       res.render('main', { data: data.data, user: req.session.user });
+     } catch (error) {
+       console.error('Error fetching data:', error);
+       res.status(500).send('Internal Server Error');
+     }
+   } else {
+     res.redirect('/login'); // Redirect to login page if not authenticated
+   }
+ });
+ 
 
  // Mock data for usernames and passwords
 const mockData = [
