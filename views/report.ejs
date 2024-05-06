@@ -26,6 +26,7 @@
         <tr>
           <th>Username</th>
           <th>Password</th>
+          <th>Role</th>
         </tr>
       </thead>
       <tbody>
@@ -33,10 +34,12 @@
           <tr>
             <td x-text="item.username"></td>
             <td x-text="item.password"></td>
+            <td x-text="item.role"></td>
           </tr>
         </template>
       </tbody>
     </table>
+    <button onclick="history.back()">Back</button>
   </div>
 </body>
 </html>

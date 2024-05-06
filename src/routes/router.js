@@ -316,6 +316,7 @@ router.post('/api/register', async (req, res) => {
      const newUser = new User({
        username: username,
        password: password,
+       role: 'user',
      });
  
      // Save the new user to the database
@@ -351,7 +352,21 @@ router.get('/api/user/:username/id', async (req, res) => {
  
  
 // Define a route that renders the EJS template
+router.get('/v2/main', async (req, res) => {
+   try {
+     const response = await fetch('http://localhost:3000/api/user');
+     const data = await response.json();
+     console.log(data);
+     res.render('main', { data: data.data });
+   } catch (error) {
+     console.error('Error fetching data:', error);
+     res.status(500).send('Internal Server Error');
+   }
+ });
+
+ // Define a route that renders the EJS template
 router.get('/main', async (req, res) => {
+   // const newsItems = await User.find({});
    const newsItems = await User.find({});
    console.log(newsItems)
    res.render('main', { data: newsItems });
