@@ -290,16 +290,65 @@ router.get('/', (req, res) => {
    res.render('login');
  });
 
-// Define the login API endpoint
-router.post('/api/login', (req, res) => {
-   const { username, password } = req.body;
+// // Define the login API endpoint
+// router.post('/api/login', (req, res) => {
+//    const { username, password } = req.body;
  
-   // Perform authentication logic here
-   if (username === 'admin' && password === 'password') {
-     res.json({ success: true, message: 'Login successful' });
-   } else {
-     res.json({ success: false, message: 'Invalid credentials' });
+//    // Perform authentication logic here
+//    if (username === 'admin' && password === 'password') {
+//      res.json({ success: true, message: 'Login successful' });
+//    } else {
+//      res.json({ success: false, message: 'Invalid credentials' });
+//    }
+//  });
+
+const User = require('../models/User');
+
+// Define the login API endpoint
+router.post('/api/login', async (req, res) => {
+   const { username, password } = req.body;
+   console.log(username, password);
+ 
+   
+   try {
+     // Find the user with the matching username and password
+     const user = await User.findOne({ username: username, password: password });
+ 
+     if (user) {
+       res.json({ success: true, message: 'Login successful' });
+     } else {
+       res.json({ success: false, message: 'Invalid username or password' });
+     }
+   } catch (error) {
+     console.error('Error during login:', error);
+     res.status(500).json({ success: false, message: 'Internal server error' });
    }
+   });
+
+ 
+
+ // Get all news items
+ router.get('/api/users', async (req, res) => {
+   const newsItems = await User.find({});
+   res.send({"statusCode":200,"code":"00","data":newsItems});
+   
+});
+
+// Define the registration API endpoint
+router.post('/api/register', async (req, res) => {
+   const { username, password } = req.body;
+   console.log(username, password);
+ 
+   const newUser = new User({
+      username: username,
+      password: password,
+    });
+       // Save the new user to the database
+       await newUser.save()
+
+       return res.status(201).send(newUser);
+     
+   
  });
  
 // Define a route that renders the EJS template
@@ -319,11 +368,14 @@ router.get('/report', (req, res) => {
    res.render('report');
  });
 
+router.get('/register', (req, res) => {
+   res.render('register');
+ });
+
 // Define an API endpoint to retrieve the mock data
 router.get('/api/data', (req, res) => {
    res.json(mockData);
  });
-
 
 
 module.exports = router;

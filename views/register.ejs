@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login Form</title>
+  <title>Registration Form</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body>
-  <div x-data="{ 
-    username: '', 
-    password: '', 
+  <div x-data="{
+    username: '',
+    password: '',
     message: '',
-    login() {
-      fetch('/api/login', {
+    register() {
+      fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,23 +20,28 @@
           password: this.password,
         }),
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            window.location.href = '/main';
-            // console.log('Login successful');
+        .then(response => {
+            // console.log(response.status);
+          if (response.status === 201) {
+            alert('Registration successful')
+            window.location.href = '/';
+          } else {
+            return response.json();
           }
-          this.message = data.message;
+        })
+        .then(data => {
+          if (data) {
+            this.message = data.message;
+          }
         })
         .catch(error => {
           console.error('Error:', error);
         });
     }
   }">
-    <h2>Login Form</h2>
-    <form @submit.prevent="login">
+    <h2>Registration Form</h2>
+    <form @submit.prevent="register">
       <div>
-        <!-- <h6 x-text="username"></h6> -->
         <label for="username">Username:</label>
         <input type="text" id="username" x-model="username" required>
       </div>
@@ -44,9 +49,8 @@
         <label for="password">Password:</label>
         <input type="password" id="password" x-model="password" required>
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">Register</button>
     </form>
-    <button onclick="window.location.href = '/register'">Register</button>
     <p x-text="message"></p>
   </div>
 </body>
