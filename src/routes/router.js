@@ -433,6 +433,21 @@ router.delete('/api/user/:userId', async (req, res) => {
  });
  
 
+ // Define the route for the edit user page
+router.get('/edit-user/:userId', async (req, res) => {
+   const { userId } = req.params;
+ 
+   try {
+     // Find the user by ID
+     const user = await User.findById(userId);
+     res.render('edit-user', { user });
+   } catch (error) {
+     console.error('Error fetching user:', error);
+     res.status(500).send('Internal Server Error');
+   }
+ });
+ 
+
 
 
 
