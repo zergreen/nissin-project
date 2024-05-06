@@ -277,32 +277,84 @@ router.post('/api/login', async (req, res) => {
  
 
  // Get all news items
- router.get('/api/users', async (req, res) => {
+ router.get('/api/user', async (req, res) => {
    const newsItems = await User.find({});
    res.send({"statusCode":200,"code":"00","data":newsItems});
    
 });
 
+// // Define the registration API endpoint
+// router.post('/api/register', async (req, res) => {
+//    const { username, password } = req.body;
+//    console.log(username, password);
+ 
+//    const newUser = new User({
+//       username: username,
+//       password: password,
+//     });
+//        // Save the new user to the database
+//        await newUser.save()
+
+//        return res.status(201).send(newUser);
+     
+   
+//  });
 // Define the registration API endpoint
 router.post('/api/register', async (req, res) => {
    const { username, password } = req.body;
    console.log(username, password);
  
-   const newUser = new User({
-      username: username,
-      password: password,
-    });
-       // Save the new user to the database
-       await newUser.save()
+   try {
+     // Check if the username already exists
+     const existingUser = await User.findOne({ username: username });
+ 
+     if (existingUser) {
+       return res.status(409).json({ message: 'Username already exists' });
+     }
+ 
+     // Create a new user
+     const newUser = new User({
+       username: username,
+       password: password,
+     });
+ 
+     // Save the new user to the database
+     await newUser.save();
+ 
+     return res.status(201).json({ message: 'User registered successfully' });
+   } catch (error) {
+     console.error('Error during registration:', error);
+     return res.status(500).json({ message: 'Internal server error' });
+   }
+ });
 
-       return res.status(201).send(newUser);
-     
-   
+// Define the API endpoint to get _id by username
+router.get('/api/user/:username/id', async (req, res) => {
+   const { username } = req.params;
+ 
+   try {
+     // Find the user by username
+     const user = await User.findOne({ username: username });
+ 
+     if (!user) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+ 
+     // Return the _id of the user
+     return res.status(200).json({ _id: user._id });
+   } catch (error) {
+     console.error('Error retrieving user ID:', error);
+     return res.status(500).json({ message: 'Internal server error' });
+   }
  });
  
+ 
+ 
 // Define a route that renders the EJS template
-router.get('/main', (req, res) => {
-   res.render('main', { data: mockData });
+router.get('/main', async (req, res) => {
+   const newsItems = await User.find({});
+   console.log(newsItems)
+   res.render('main', { data: newsItems });
  });
 
  // Mock data for usernames and passwords
@@ -325,6 +377,8 @@ router.get('/register', (req, res) => {
 router.get('/api/data', (req, res) => {
    res.json(mockData);
  });
+
+
 
 
 module.exports = router;

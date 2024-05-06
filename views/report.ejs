@@ -9,12 +9,12 @@
   <div x-data="{
     data: [],
     fetchData() {
-      // console.log('Fetching data');
-      fetch('/api/data')
+      console.log('Fetching data');
+      fetch('/api/user')
         .then(response => response.json())
-        .then(data => {
-         // console.log(data);
-          this.data = data;
+        .then(result => {
+          console.log(result);
+          this.data = result.data;
         })
         .catch(error => {
           console.error('Error:', error);
@@ -37,7 +37,6 @@
         </template>
       </tbody>
     </table>
-    <button onclick="history.back()">Go Back</button>
   </div>
 </body>
 </html>

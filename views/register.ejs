@@ -26,6 +26,9 @@
             alert('Registration successful')
             window.location.href = '/';
           } else {
+            alert('Registration Failed')
+            this.username = '';
+            this.password = '';
             return response.json();
           }
         })
@@ -52,6 +55,7 @@
         
           <input type="password" placeholder="Aa@@123456" id="password" x-model="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required>
           <!-- <small>Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)</small> -->
+          Aa@@123456
         </div>
         <button type="submit">Register</button>
       </form>
