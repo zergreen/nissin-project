@@ -41,17 +41,22 @@
   }">
     <h2>Registration Form</h2>
     <form @submit.prevent="register">
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" x-model="username" required>
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" x-model="password" required>
-      </div>
-      <button type="submit">Register</button>
-    </form>
-    <p x-text="message"></p>
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" placeholder="superadmin" id="username" x-model="username" pattern=".{8,}" required>
+          
+          <!-- <small>Username must be at least 8 characters long</small> -->
+        </div>
+        <div>
+          <label for="password">Password:</label>
+        
+          <input type="password" placeholder="Aa@@123456" id="password" x-model="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required>
+          <!-- <small>Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)</small> -->
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      
+      
   </div>
 </body>
 </html>

@@ -3,13 +3,9 @@ const router = express.Router()
 
 const { NewsEndpoint } = require('../service/news/endpoint');
 const { ApplyEndpoint } = require('../service/apply/endpoint');
-const { LoginEndpoint } = require('../service/login/endpoint');
 const { ProductEndpoint } = require('../service/product/endpoint');
 
-
 const News = require('../models/News');
-
-
 // Create a new news item
 router.post('/news', new NewsEndpoint().addNewsEndpoint);
 
@@ -115,54 +111,7 @@ router.get('/apply/search/:id', async (req, res) => {
    });
 
 
-const Login = require('../models/Login');
 
-// Create a new news item
-router.post('/login', new LoginEndpoint().addLoginEndpoint);
-
-
-// Get all apply items
-router.get('/login', async (req, res) => {
-   try {
-     const loginItems = await Login.find();
-     res.send({"statusCode":200,"code":"00","data":loginItems});
-   } catch (err) {
-     res.status(500).json({ message: err.message });
-   }
- });
-
-// Get login by uuid
-router.get('/login/:id', async (req, res) => {
-   const login = await Login.findById(req.params.id);
-   if (!login) return res.status(404).send('News not found');
-   res.send(login);
-});
-
-router.put('/login/:id', new LoginEndpoint().updateLoginEndpoint)
-
-// Delete a news item by ID
-router.delete('/login/:id', async (req, res) => {
-   const login = await Login.findByIdAndDelete(req.params.id);
-   if (!login) return res.status(404).send('Login not found');
-   res.send(login);
-});
-
-router.get('/login/search/:id', async (req, res) => {
-   const loginId  = req.params.id;
-   if (!loginId) {
-      return res.status(400).send('login ID is required');
-   }
-   
-   try {
-      const loginItem = await Login.findOne({ loginId: loginId });
-      if (!loginItem) {
-         return res.status(404).send('Login item not found');
-      }
-      res.send({ id: loginItem._id });
-   } catch (error) {
-      res.status(500).send('Error searching Login item');
-   }
-   });
 
 
 const Product = require('../models/Product');
