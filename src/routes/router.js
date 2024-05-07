@@ -251,6 +251,8 @@ router.get('/', (req, res) => {
 //    }
 //  });
 
+// ***************************************************************************************************************
+
 const User = require('../models/User');
 
 // Define the login API endpoint
@@ -305,8 +307,9 @@ router.post('/api/login', async (req, res) => {
      
    
 //  });
+
 // Define the registration API endpoint
-router.post('/api/register', async (req, res) => {
+router.post('/api/v1/register', async (req, res) => {
    const { username, password } = req.body;
    console.log(username, password);
  
@@ -334,6 +337,55 @@ router.post('/api/register', async (req, res) => {
      return res.status(500).json({ message: 'Internal server error' });
    }
  });
+
+// Define the registration API endpoint
+router.post('/api/register', async (req, res) => {
+  const { username, password, name, fullname, age, salary, address, quote } = req.body;
+  console.log(username, password);
+  console.log(name)
+
+  try {
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username: username });
+
+    if (existingUser) {
+      return res.status(409).json({ message: 'Username already exists' });
+    }
+
+    // Create a new user
+    const newUser = new User({
+      username: username,
+      password: password,
+      role: 'user',
+    });
+
+    // Create a new profile associated with the user
+    const newProfile = new Profile({
+      user: newUser._id,
+      name: name,
+      fullname: fullname,
+      age: age,
+      salary: salary,
+      address: address,
+      quote: quote,
+    });
+
+    // Save the new profile to the database
+    await newProfile.save();
+
+    // Assign the profile reference to the user's profile field
+    newUser.profile = newProfile._id;
+
+    // Save the new user to the database
+    await newUser.save();
+
+    return res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 // Define the API endpoint to get _id by username
 router.get('/api/user/:username/id', async (req, res) => {
@@ -468,7 +520,145 @@ router.post('/api/user/:userId', async (req, res) => {
      res.status(500).json({ message: 'Internal server error' });
    }
  });
- 
+
+const Profile = require('../models/Profile');
+
+// Create a new profile
+router.post('/api/profiles', async (req, res) => {
+  try {
+    const { userId, name, fullname, age, salary, address, quote } = req.body;
+
+    // Check if the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Create a new profile
+    const profile = new Profile({
+      user: userId,
+      name,
+      fullname,
+      age,
+      salary,
+      address,
+      quote,
+    });
+
+    // Save the profile
+    await profile.save();
+
+    res.status(201).json(profile);
+  } catch (error) {
+    console.error('Error creating profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get all profiles
+router.get('/api/profiles', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', 'username');
+    // const profiles = await Profile.find()
+    res.json(profiles);
+  } catch (error) {
+    console.error('Error retrieving profiles:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get a profile by user ID
+router.get('/api/profiles/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId).populate('profile');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const profile = user.profile;
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(profile);
+  } catch (error) {
+    console.error('Error retrieving profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get a single profile by ID
+router.get('/api/profiles/:id', async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id).populate('user', 'username');
+    // const profile = await Profile.findById(req.params.id)
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+    res.json(profile);
+  } catch (error) {
+    console.error('Error retrieving profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update a profile
+router.put('/api/profiles/:id', async (req, res) => {
+  try {
+    const { name, fullname, age, salary, address, quote } = req.body;
+
+    const profile = await Profile.findByIdAndUpdate(
+      req.params.id,
+      { name, fullname, age, salary, address, quote },
+      { new: true }
+    );
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(profile);
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Delete a profile
+router.delete('/api/profiles/:id', async (req, res) => {
+  try {
+    const profile = await Profile.findByIdAndRemove(req.params.id);
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+    res.json({ message: 'Profile deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get a user by ID and populate the profile
+router.get('/api/users/:userId/profile', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find the user by ID and populate the profile
+    const user = await User.findById(userId).populate('profile');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error retrieving user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 
