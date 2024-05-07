@@ -5,6 +5,11 @@ const router = express.Router()
 
 const User = require('../models/User');
 
+// Define a route that renders the EJS template
+router.get('/', (req, res) => {
+  res.render('login');
+});
+
 // Define the login API endpoint
 router.post('/api/login', async (req, res) => {
    const { username, password } = req.body;
