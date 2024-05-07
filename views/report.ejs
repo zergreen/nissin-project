@@ -121,7 +121,10 @@
             <tbody>
               <template x-for="item in paginatedData">
                 <tr>
-                  <td x-text="item.username"></td>
+
+                  <td>
+                    <button type="button" class="btn btn-link" x-text="item.username" @click="editProfile(item._id)"></button>
+                  </td>
                   <td x-text="item.password"></td>
                   <td x-text="item.role"></td>
                   <td>
