@@ -521,6 +521,8 @@ router.post('/api/user/:userId', async (req, res) => {
    }
  });
 
+
+
 const Profile = require('../models/Profile');
 
 // Create a new profile
@@ -693,6 +695,56 @@ router.put('/api/users/:userId/profile', async (req, res) => {
     res.json(profile);
   } catch (error) {
     console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+ // Define the route for the edit user page
+ router.get('/edit-profile/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId).populate('profile');
+    // console.log(user)
+    res.render('edit-profile', { user, profile: user.profile });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Define the update user API endpoint
+router.post('/api/v2/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const { username, password, role, name, fullname, age, salary, address, quote } = req.body;
+
+  try {
+    // Find the user by ID and update its details
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { username, password, role },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the user's profile and update its details
+    const profile = await Profile.findOneAndUpdate(
+      { user: userId },
+      { name, fullname, age, salary, address, quote },
+      { new: true }
+    );
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.redirect('/report');
+  } catch (error) {
+    console.error('Error updating user and profile:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

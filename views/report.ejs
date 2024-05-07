@@ -41,6 +41,9 @@
       },
       editUser(userId) {
         window.location.href = `/edit-user/${userId}`;
+      },
+      editProfile(userId) {
+        window.location.href = `/edit-profile/${userId}`;
       }
     }" x-init="fetchData()">
       <table class="table table-striped">
@@ -61,6 +64,7 @@
               <td>
                 <button class="btn btn-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
                 <button class="btn btn-primary btn-sm" @click="editUser(item._id)">Edit</button>
+                <button class="btn btn-primary btn-sm" @click="editProfile(item._id)">Detail</button>
               </td>
             </tr>
           </template>
