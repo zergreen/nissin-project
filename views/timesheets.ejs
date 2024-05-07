@@ -10,7 +10,13 @@
       overflow-y: auto;
     }
     .table-wrapper table {
-      width: 1280px; /* Adjust the width as needed */
+      width: 1500px; /* Adjust the width as needed */
+    }
+    .truncate {
+      max-width: 200px; /* Adjust the max-width as needed */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -112,9 +118,9 @@
       <div class="mb-3">
         <input type="datetime-local" class="form-control" placeholder="Search by start time" x-model="startTimeQuery">
       </div>
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <input type="datetime-local" class="form-control" placeholder="Search by end time" x-model="endTimeQuery">
-      </div>
+      </div> -->
       <div class="mb-3">
         <select class="form-control" x-model="selectedStatus">
           <option value="">All Statuses</option>
@@ -123,6 +129,7 @@
           <option value="canceled">Canceled</option>
         </select>
       </div>
+      <button class="btn btn-outline-primary btn-sm" onclick="window.location.href='/create-timesheet/<%= session._id %>'">CREATE</button>
       <div class="table-responsive">
         <div class="table-wrapper">
           <table class="table table-striped">
@@ -147,7 +154,7 @@
               <template x-for="item in paginatedData">
                 <tr>
                   <td x-text="item.workType"></td>
-                  <td x-text="item.workName"></td>
+                  <td class="truncate" data-toggle="tooltip" :title="item.workName" x-text="item.workName"></td>
                   <td x-text="new Date(item.startTime).toLocaleString()"></td>
                   <td x-text="new Date(item.endTime).toLocaleString()"></td>
                   <td x-text="item.status"></td>
@@ -183,10 +190,10 @@
         </ul>
       </nav>
       <!-- <p><%= session._id %></p> -->
-      <div class="text-center mt-4">
+      <!-- <div class="text-center mt-4">
         <button class="btn btn-outline-primary" onclick="history.back()">Back</button>
         <button class="btn btn-outline-warning btn-sm" onclick="window.location.href='/create-timesheet/<%= session._id %>'">CREATE</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </body>

@@ -9,9 +9,18 @@
   <div class="container mt-5">
     <h1 class="text-center mb-4">Edit User</h1>
     <form action="/api/timesheets/<%= data._id %>" method="POST">
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="workType">workType:</label>
-        <input type="text" class="form-control" id="workType" name="workType" value="<%= data.workType %>" required>
+        <input type="text" class="form-control" id="workType" name="workType"  required>
+      </div> -->
+      <div class="form-group">
+        <label for="workType">Work Type:</label>
+        <select class="form-control" id="workType" value="<%= data.workType %>" required>
+          <option value="">Select Work Type</option>
+          <option value="Development">Development</option>
+          <option value="Test">Test</option>
+          <option value="Document">Document</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="workName">workName:</label>

@@ -30,7 +30,7 @@
               .then(response => response.json())
               .then(data => {
                 if (data.success) {
-                  window.location.href = '/main';
+                  window.location.href = '/timesheets';
                   // console.log('Login successful');
                 }
                 this.message = data.message;
