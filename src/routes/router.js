@@ -748,6 +748,93 @@ router.post('/api/v2/user/:userId', async (req, res) => {
   }
 });
 
+const Timesheet = require('../models/Timesheet');
+
+
+// Create a new timesheet entry
+router.post('/api/timesheets', async (req, res) => {
+  try {
+    const { workType, workName, startTime, endTime, status, user } = req.body;
+
+    console.log({workType, workName, startTime, endTime, status, user})
+
+    const timesheet = new Timesheet({
+      workType,
+      workName,
+      startTime,
+      endTime,
+      status,
+      user
+    });
+
+    const savedTimesheet = await timesheet.save();
+    res.status(201).json(savedTimesheet);
+  } catch (error) {
+    console.error('Error creating timesheet:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get all timesheet entries
+router.get('/api/timesheets', async (req, res) => {
+  try {
+    const timesheets = await Timesheet.find().populate('user', 'username');
+    res.json(timesheets);
+  } catch (error) {
+    console.error('Error retrieving timesheets:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get a single timesheet entry by ID
+router.get('/api/timesheets/:id', async (req, res) => {
+  try {
+    const timesheet = await Timesheet.findById(req.params.id).populate('user', 'username');
+    if (!timesheet) {
+      return res.status(404).json({ message: 'Timesheet not found' });
+    }
+    res.json(timesheet);
+  } catch (error) {
+    console.error('Error retrieving timesheet:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update a timesheet entry
+router.put('/api/timesheets/:id', async (req, res) => {
+  try {
+    const { workType, workName, startTime, endTime, status } = req.body;
+
+    const timesheet = await Timesheet.findByIdAndUpdate(
+      req.params.id,
+      { workType, workName, startTime, endTime, status, updatedAt: Date.now() },
+      { new: true }
+    );
+
+    if (!timesheet) {
+      return res.status(404).json({ message: 'Timesheet not found' });
+    }
+
+    res.json(timesheet);
+  } catch (error) {
+    console.error('Error updating timesheet:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Delete a timesheet entry
+router.delete('/api/timesheets/:id', async (req, res) => {
+  try {
+    const timesheet = await Timesheet.findByIdAndRemove(req.params.id);
+    if (!timesheet) {
+      return res.status(404).json({ message: 'Timesheet not found' });
+    }
+    res.json({ message: 'Timesheet deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting timesheet:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 
