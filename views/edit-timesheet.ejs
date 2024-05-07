@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit TimeSheet</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <%- include('./partials/nav'); %>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Edit User</h1>
+    <form action="/api/timesheets/<%= data._id %>" method="POST">
+      <div class="form-group">
+        <label for="workType">workType:</label>
+        <input type="text" class="form-control" id="workType" name="workType" value="<%= data.workType %>" required>
+      </div>
+      <div class="form-group">
+        <label for="workName">workName:</label>
+        <input type="text" class="form-control" id="workName" name="workName" value="<%= data.workName %>" required>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-outline-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

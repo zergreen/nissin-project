@@ -756,7 +756,7 @@ router.post('/api/timesheets', async (req, res) => {
   try {
     const { workType, workName, startTime, endTime, status, user } = req.body;
 
-    console.log({workType, workName, startTime, endTime, status, user})
+    // console.log({workType, workName, startTime, endTime, status, user})
 
     const timesheet = new Timesheet({
       workType,
@@ -801,7 +801,7 @@ router.get('/api/timesheets/:id', async (req, res) => {
 });
 
 // Update a timesheet entry
-router.put('/api/timesheets/:id', async (req, res) => {
+router.post('/api/timesheets/:id', async (req, res) => {
   try {
     const { workType, workName, startTime, endTime, status } = req.body;
 
@@ -815,7 +815,9 @@ router.put('/api/timesheets/:id', async (req, res) => {
       return res.status(404).json({ message: 'Timesheet not found' });
     }
 
-    res.json(timesheet);
+  //  console.log(timesheet)
+
+    res.redirect('/timesheets');
   } catch (error) {
     console.error('Error updating timesheet:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -836,6 +838,30 @@ router.delete('/api/timesheets/:id', async (req, res) => {
   }
 });
 
+// Define a route for the report page
+router.get('/timesheets', (req, res) => {
+  res.render('timesheets', {session: req.session.user});
+});
+
+// Define the route for the edit timesheet page
+router.get('/edit-timesheet/:timesheetId', async (req, res) => {
+  const { timesheetId } = req.params;
+
+  try {
+    // Find the timesheet by ID
+    const timesheet = await Timesheet.findById(timesheetId);
+    res.render('edit-timesheet', { data: timesheet });
+  } catch (error) {
+    console.error('Error fetching timesheet:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Define a route for the report page
+router.get('/create-timesheet/:id', (req, res) => {
+  // console.log(req.params.id)
+  res.render('create-timesheet', { userId: req.params.id });
+});
 
 
 module.exports = router;

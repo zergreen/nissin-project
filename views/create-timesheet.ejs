@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Timesheet</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div x-data="{
+          workType: '',
+          workName: '',
+          startTime: '',
+          endTime: '',
+          status: '',
+          user: '<%= userId %>',
+          message: '',
+          createTimesheet() {
+            fetch('/api/timesheets', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                workType: this.workType,
+                workName: this.workName,
+                startTime: this.startTime,
+                endTime: this.endTime,
+                status: this.status,
+                user: this.user
+              }),
+            })
+              .then(response => {
+                if (response.status === 201) {
+                  alert('Timesheet created successfully');
+                  window.location.href = '/timesheets';
+                } else {
+                  alert('Failed to create timesheet');
+                  return response.json();
+                }
+              })
+              .then(data => {
+                if (data) {
+                  this.message = data.message;
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+          }
+        }">
+        
+          <h2 class="text-center mb-4">Create Timesheet</h2>
+          <form @submit.prevent="createTimesheet">
+            <div class="form-group">
+              <label for="workType">Work Type:</label>
+              <select class="form-control" id="workType" x-model="workType" required>
+                <option value="">Select Work Type</option>
+                <option value="Development">Development</option>
+                <option value="Test">Test</option>
+                <option value="Document">Document</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="workName">Work Name:</label>
+              <input type="text" class="form-control" id="workName" x-model="workName" required>
+            </div>
+            <div class="form-group">
+              <label for="startTime">Start Time:</label>
+              <input type="datetime-local" class="form-control" id="startTime" x-model="startTime" required>
+            </div>
+            <div class="form-group">
+              <label for="endTime">End Time:</label>
+              <input type="datetime-local" class="form-control" id="endTime" x-model="endTime" required>
+            </div>
+            <div class="form-group">
+              <label for="status">Status:</label>
+              <select class="form-control" id="status" x-model="status" required>
+                <option value="">Select Status</option>
+                <option value="executed">Executed</option>
+                <option value="completed">Completed</option>
+                <option value="canceled">Canceled</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <!-- <label for="user">User:</label> -->
+              <input type="hidden" class="form-control" id="user" x-model="user" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Timesheet</button>
+          </form>
+          <p class="text-center text-danger mt-3" x-text="message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
