@@ -706,8 +706,7 @@ router.put('/api/users/:userId/profile', async (req, res) => {
   try {
     // Find the user by ID
     const user = await User.findById(userId).populate('profile');
-    // console.log(user)
-    res.render('edit-profile', { user, profile: user.profile });
+    res.render('edit-profile', { user, profile: user.profile, session: req.session.user});
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).send('Internal Server Error');

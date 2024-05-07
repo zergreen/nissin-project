@@ -15,7 +15,7 @@
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" value="<%= user.password %>" required>
+        <input type="hidden"  class="form-control" id="password" name="password" value="<%= user.password %>" required>
       </div>
       <div class="form-group">
         <label for="name">Name:</label>
@@ -41,14 +41,22 @@
         <label for="quote">Quote:</label>
         <input type="text" class="form-control" id="quote" name="quote" value="<%= profile.quote %>" required>
       </div>
-      <div class="form-group">
-        <label for="role">Role:</label>
-        <select class="form-control" id="role" name="role" required>
-          <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
-          <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
-          <option value="superadmin" <%= user.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
-        </select>
-      </div>
+      <% if (session.role === 'admin') { %>
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <select class="form-control" id="role" name="role" required>
+            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            <option value="superadmin" <%= user.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
+          </select>
+        </div>
+      <% } else { %>
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <input type="text" class="form-control" id="role" name="role" value="<%= user.role %>" readonly>
+        </div>
+      <% } %>
+      
       <div class="text-center">
         <button type="submit" class="btn btn-primary">Update</button>
       </div>
