@@ -21,18 +21,36 @@
     <div x-data="{
       data: [],
       searchQuery: '',
+      selectedRole: '',
       currentPage: 1,
       pageSize: 10,
+      sortOrder: 'asc',
       get filteredData() {
-        return this.data.filter(item => item.username.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        let filtered = this.data;
+        if (this.searchQuery) {
+          filtered = filtered.filter(item => item.username.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        }
+        if (this.selectedRole) {
+          filtered = filtered.filter(item => item.role === this.selectedRole);
+        }
+        return filtered;
+      },
+      get sortedData() {
+        return this.filteredData.sort((a, b) => {
+          if (this.sortOrder === 'asc') {
+            return a.username.localeCompare(b.username);
+          } else {
+            return b.username.localeCompare(a.username);
+          }
+        });
       },
       get totalPages() {
-        return Math.ceil(this.filteredData.length / this.pageSize);
+        return Math.ceil(this.sortedData.length / this.pageSize);
       },
       get paginatedData() {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        return this.filteredData.slice(startIndex, endIndex);
+        return this.sortedData.slice(startIndex, endIndex);
       },
       fetchData() {
         console.log('Fetching data');
@@ -67,17 +85,33 @@
       },
       editProfile(userId) {
         window.location.href = `/edit-profile/${userId}`;
+      },
+      toggleSortOrder() {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
       }
     }" x-init="fetchData()">
       <div class="mb-3">
         <input type="text" class="form-control" placeholder="Search by username" x-model="searchQuery">
+      </div>
+      <div class="mb-3">
+        <select class="form-control" x-model="selectedRole">
+          <option value="">All Roles</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+          <option value="superadmin">Super Admin</option>
+        </select>
       </div>
       <div class="table-responsive">
         <div class="table-wrapper">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Username</th>
+                <th>
+                  Username
+                  <button class="btn btn-link" @click="toggleSortOrder()">
+                    <i class="fas" :class="{'fa-sort-up': sortOrder === 'asc', 'fa-sort-down': sortOrder === 'desc'}">i</i>
+                  </button>
+                </th>
                 <th>Password</th>
                 <th>Role</th>
                 <th>Actions</th>
