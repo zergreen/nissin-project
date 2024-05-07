@@ -4,6 +4,15 @@
   <title>Report Page</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+  <style>
+    .table-wrapper {
+      max-height: 400px; /* Adjust the height as needed */
+      overflow-y: auto;
+    }
+    .table-wrapper table {
+      width: 1500px; /* Adjust the width as needed */
+    }
+  </style>
 </head>
 <body>
   <%- include('./partials/nav'); %>
@@ -11,6 +20,20 @@
     <h1 class="text-center mb-4">Report Page</h1>
     <div x-data="{
       data: [],
+      searchQuery: '',
+      currentPage: 1,
+      pageSize: 10,
+      get filteredData() {
+        return this.data.filter(item => item.username.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      },
+      get totalPages() {
+        return Math.ceil(this.filteredData.length / this.pageSize);
+      },
+      get paginatedData() {
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        return this.filteredData.slice(startIndex, endIndex);
+      },
       fetchData() {
         console.log('Fetching data');
         fetch('/api/user')
@@ -46,30 +69,73 @@
         window.location.href = `/edit-profile/${userId}`;
       }
     }" x-init="fetchData()">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template x-for="item in data">
-            <tr>
-              <td x-text="item.username"></td>
-              <td x-text="item.password"></td>
-              <td x-text="item.role"></td>
-              <td>
-                <button class="btn btn-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
-                <button class="btn btn-primary btn-sm" @click="editUser(item._id)">Edit</button>
-                <button class="btn btn-primary btn-sm" @click="editProfile(item._id)">Detail</button>
-              </td>
-            </tr>
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Search by username" x-model="searchQuery">
+      </div>
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Actions</th>
+                <th>x</th>
+                <th>x</th>
+                <th>x</th>
+                <th>x</th>
+                <th>x</th>
+                <th>x</th>
+                <th>xx</th>
+                <th>xx</th>
+                <th>xx</th>
+                <th>xx</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="item in paginatedData">
+                <tr>
+                  <td x-text="item.username"></td>
+                  <td x-text="item.password"></td>
+                  <td x-text="item.role"></td>
+                  <td>
+                    <button class="btn btn-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
+                    <button class="btn btn-primary btn-sm" @click="editUser(item._id)">Edit</button>
+                    <button class="btn btn-primary btn-sm" @click="editProfile(item._id)">Detail</button>
+                  </td>
+                  <td>xtarst</td>
+                  <td>xtars</td>
+                  <td>tarstx</td>
+                  <td>xtarst</td>
+                  <td>tarstx</td>
+                  <td>tarstarsx</td>
+                  <td>tarstarsx</td>
+                  <td>xx</td>
+                  <td>txxxxarstarsx</td>
+                  <td>taxxrstarsx</td>
+                  <td>tarxxxstarsx</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+            <a class="page-link" href="#" @click.prevent="currentPage--">Previous</a>
+          </li>
+          <template x-for="page in totalPages">
+            <li class="page-item" :class="{ 'active': currentPage === page }">
+              <a class="page-link" href="#" @click.prevent="currentPage = page" x-text="page"></a>
+            </li>
           </template>
-        </tbody>
-      </table>
+          <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+            <a class="page-link" href="#" @click.prevent="currentPage++">Next</a>
+          </li>
+        </ul>
+      </nav>
       <div class="text-center mt-4">
         <button class="btn btn-secondary" onclick="history.back()">Back</button>
       </div>
