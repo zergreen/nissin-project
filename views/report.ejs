@@ -134,9 +134,9 @@
                   <td x-text="item.password"></td>
                   <td x-text="item.role"></td>
                   <td>
-                    <button class="btn btn-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
-                    <button class="btn btn-primary btn-sm" @click="editUser(item._id)">Edit</button>
-                    <button class="btn btn-primary btn-sm" @click="editProfile(item._id)">Detail</button>
+                    <button class="btn btn-outline-danger btn-sm mr-2" @click="deleteUser(item._id)">Delete</button>
+                    <button class="btn btn-outline-warning btn-sm" @click="editUser(item._id)">Edit</button>
+                    <button class="btn btn-outline-info btn-sm" @click="editProfile(item._id)">Detail</button>
                   </td>
                   <td>xtarst</td>
                   <td>xtars</td>
@@ -171,7 +171,7 @@
         </ul>
       </nav>
       <div class="text-center mt-4">
-        <button class="btn btn-secondary" onclick="history.back()">Back</button>
+        <button class="btn btn-outline-primary" onclick="history.back()">Back</button>
       </div>
     </div>
   </div>
