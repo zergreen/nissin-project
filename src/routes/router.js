@@ -341,8 +341,8 @@ router.post('/api/v1/register', async (req, res) => {
 // Define the registration API endpoint
 router.post('/api/register', async (req, res) => {
   const { username, password, name, fullname, age, salary, address, quote } = req.body;
-  console.log(username, password);
-  console.log(name)
+  // console.log(username, password);
+  // console.log(name)
 
   try {
     // Check if the username already exists
@@ -659,6 +659,43 @@ router.get('/api/users/:userId/profile', async (req, res) => {
   }
 });
 
+// Update a user's profile
+router.put('/api/users/:userId/profile', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { name, fullname, age, salary, address, quote } = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the user's profile
+    const profile = await Profile.findOne({ user: userId });
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    // Update the profile fields
+    profile.name = name ? name : profile.name;
+    profile.fullname = fullname ? fullname : profile.fullname;
+    profile.age = age ? age : profile.age;
+    profile.salary = salary ? salary : profile.salary;
+    profile.address = address ? address : profile.address;
+    profile.quote = quote ? quote : profile.quote;
+
+    // Save the updated profile
+    await profile.save();
+
+    res.json(profile);
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 
