@@ -9,9 +9,12 @@ const morgan = require('morgan');
 const MongoStore = require('connect-mongo');
 const routes = require('./src/routes/router');
 const server = express();
+const connectDB = require('./config/connector'); 
 
 // Load config
 dotenv.config({ path: path.join(__dirname, 'config', 'config.env') });
+
+connectDB(); 
 
 // Middleware for parsing requests
 server.use(bodyParser.json());
@@ -39,17 +42,12 @@ server.use(
   })
 );
 
-
-// Set global user variable for views
-server.use(function (req, res, next) {
-  res.locals.user = req.user || null;
-  next();
-});
-
-const connectDB = require('./config/connector'); 
-connectDB(); 
-
-
+// // Set global user variable for views
+// server.use(function (req, res, next) {
+//   console.log('call me')
+//   res.locals.user = req.user || null;
+//   next();
+// });
 
 server.use(routes);
 const port = process.env.PORT || 3000;
