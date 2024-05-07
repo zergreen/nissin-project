@@ -17,9 +17,28 @@
         <label for="workName">workName:</label>
         <input type="text" class="form-control" id="workName" name="workName" value="<%= data.workName %>" required>
       </div>
+      <div class="form-group">
+        <label for="startTime">Start Time:</label>
+        <input type="datetime-local" class="form-control" id="startTime" name="startTime" value="<%= new Date(data.startTime).toISOString().slice(0, 16) %>" required>
+      </div>
+      <div class="form-group">
+        <label for="endTime">End Time:</label>
+        <input type="datetime-local" class="form-control" id="endTime" name="endTime" value="<%= new Date(data.endTime).toISOString().slice(0, 16) %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select class="form-control" id="status" name="status" required>
+          <option value="">Select Status</option>
+          <option value="executed" <%= data.status === 'executed' ? 'selected' : '' %>>Executed</option>
+          <option value="completed" <%= data.status === 'completed' ? 'selected' : '' %>>Completed</option>
+          <option value="canceled" <%= data.status === 'canceled' ? 'selected' : '' %>>Canceled</option>
+        </select>
+      </div>
       <div class="text-center">
         <button type="submit" class="btn btn-outline-primary">Update</button>
       </div>
+      
     </form>
   </div>
 </body>

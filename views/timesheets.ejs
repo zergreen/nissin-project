@@ -22,6 +22,8 @@
       data: [],
       searchQuery: '',
       selectedStatus: '',
+      startTimeQuery: '',
+      endTimeQuery: '',
       currentPage: 1,
       pageSize: 10,
       sortOrder: 'asc',
@@ -32,6 +34,20 @@
         }
         if (this.selectedStatus) {
           filtered = filtered.filter(item => item.status === this.selectedStatus);
+        }
+        if (this.startTimeQuery) {
+          filtered = filtered.filter(item => {
+            const startTime = new Date(item.startTime);
+            const searchTime = new Date(this.startTimeQuery);
+            return startTime.toDateString() === searchTime.toDateString();
+          });
+        }
+        if (this.endTimeQuery) {
+          filtered = filtered.filter(item => {
+            const endTime = new Date(item.endTime);
+            const searchTime = new Date(this.endTimeQuery);
+            return endTime.toDateString() === searchTime.toDateString();
+          });
         }
         return filtered;
       },
@@ -94,6 +110,12 @@
         <input type="text" class="form-control" placeholder="Search by work name" x-model="searchQuery">
       </div>
       <div class="mb-3">
+        <input type="datetime-local" class="form-control" placeholder="Search by start time" x-model="startTimeQuery">
+      </div>
+      <div class="mb-3">
+        <input type="datetime-local" class="form-control" placeholder="Search by end time" x-model="endTimeQuery">
+      </div>
+      <div class="mb-3">
         <select class="form-control" x-model="selectedStatus">
           <option value="">All Statuses</option>
           <option value="executed">Executed</option>
@@ -151,6 +173,10 @@
               <a class="page-link" href="#" @click.prevent="currentPage = page" x-text="page"></a>
             </li>
           </template>
+            <li class="page-item" :class="{ 'active': currentPage === page }">
+              <a class="page-link" href="#" @click.prevent="currentPage = page" x-text="page"></a>
+            </li>
+          </template>
           <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
             <a class="page-link" href="#" @click.prevent="currentPage++">Next</a>
           </li>
@@ -165,3 +191,4 @@
   </div>
 </body>
 </html>
+

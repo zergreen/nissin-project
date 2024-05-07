@@ -850,6 +850,7 @@ router.get('/edit-timesheet/:timesheetId', async (req, res) => {
   try {
     // Find the timesheet by ID
     const timesheet = await Timesheet.findById(timesheetId);
+    // console.log(timesheet)
     res.render('edit-timesheet', { data: timesheet });
   } catch (error) {
     console.error('Error fetching timesheet:', error);
